@@ -14,6 +14,7 @@ public class Program
         actions.Add(new RemoveStudentAction());
         actions.Add(new SearchStudentAction());
         actions.Add(new ListAllStudentsAction());
+        actions.Add(new EditStudentAction());
         actions.Add(new ExitAction());
         
         var choice = actions.Ask();

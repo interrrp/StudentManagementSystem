@@ -9,12 +9,22 @@ public class QuestionList
         var answers = new Dictionary<string, string?>();
         foreach (var question in _questions)
         {
-            Console.Write($"{question.Key}: ");
-            answers.Add(question.Key, Console.ReadLine());
+            var hasDefaultAnswer = question.Value is not null;
+
+            // Question name (optional default value):
+            Console.Write($"{question.Key}{(hasDefaultAnswer ? $" ({question.Value})" : "")}: ");
+
+            var answer = Console.ReadLine();
+            if (hasDefaultAnswer && string.IsNullOrWhiteSpace(answer))
+            {
+                answer = question.Value;
+            }
+            answers.Add(question.Key, answer);
         }
 
         return answers;
     }
 
-    public void Add(string question) => _questions.Add(question, null);
+    public void Add(string question, string? defaultAnswer = null) =>
+        _questions.Add(question, defaultAnswer);
 }
