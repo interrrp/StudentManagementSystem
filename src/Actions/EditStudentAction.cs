@@ -6,6 +6,9 @@ namespace StudentManagementSystem.Actions;
 public class EditStudentAction : ActionBase
 {
     public override string Name => "Edit a student";
+    
+    public EditStudentAction(StudentContext context)
+        : base(context) { }
 
     public override void Run()
     {
@@ -14,8 +17,7 @@ public class EditStudentAction : ActionBase
 
         var answers = questions.Ask();
 
-        using var context = new StudentContext();
-        var student = context.Students.FirstOrDefault(s => s.Name == answers["Name"]);
+        var student = Context.Students.FirstOrDefault(s => s.Name == answers["Name"]);
         if (student is null)
         {
             Console.WriteLine("Student not found.");
@@ -33,8 +35,9 @@ public class EditStudentAction : ActionBase
         student.Age = int.Parse(editAnswers["Age"]!);
         student.Grade = int.Parse(editAnswers["Grade"]!);
 
-        context.SaveChanges();
+        Context.SaveChanges();
 
         Console.WriteLine("Student edited.");
+        Thread.Sleep(1000);
     }
 }

@@ -7,6 +7,9 @@ public class AddStudentAction : ActionBase
 {
     public override string Name => "Add a student";
 
+    public AddStudentAction(StudentContext context)
+        : base(context) { }
+
     public override void Run()
     {
         var questions = new QuestionList();
@@ -23,10 +26,10 @@ public class AddStudentAction : ActionBase
             Grade = int.Parse(answers["Grade"]!)
         };
 
-        using var context = new StudentContext();
-        context.Students.Add(student);
-        context.SaveChanges();
+        Context.Students.Add(student);
+        Context.SaveChanges();
 
         Console.WriteLine("Student added.");
+        Thread.Sleep(1000);
     }
 }

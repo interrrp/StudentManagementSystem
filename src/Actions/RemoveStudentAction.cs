@@ -7,6 +7,9 @@ public class RemoveStudentAction : ActionBase
 {
     public override string Name => "Remove a student";
 
+    public RemoveStudentAction(StudentContext context)
+        : base(context) { }
+
     public override void Run()
     {
         var questions = new QuestionList();
@@ -14,17 +17,17 @@ public class RemoveStudentAction : ActionBase
 
         var answers = questions.Ask();
 
-        using var context = new StudentContext();
-        var student = context.Students.FirstOrDefault(s => s.Name == answers["Name"]);
+        var student = Context.Students.FirstOrDefault(s => s.Name == answers["Name"]);
         if (student is null)
         {
             Console.WriteLine("Student not found.");
             return;
         }
 
-        context.Students.Remove(student);
-        context.SaveChanges();
+        Context.Students.Remove(student);
+        Context.SaveChanges();
 
         Console.WriteLine("Student removed.");
+        Thread.Sleep(1000);
     }
 }

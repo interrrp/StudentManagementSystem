@@ -7,6 +7,9 @@ public class SearchStudentAction : ActionBase
 {
     public override string Name => "Search for a student";
 
+    public SearchStudentAction(StudentContext context)
+        : base(context) { }
+
     public override void Run()
     {
         var questions = new QuestionList();
@@ -14,8 +17,7 @@ public class SearchStudentAction : ActionBase
 
         var answers = questions.Ask();
 
-        using var context = new StudentContext();
-        var students = context.Students.Where(s => s.Name.Contains(answers["Name"]!)).ToList();
+        var students = Context.Students.Where(s => s.Name.Contains(answers["Name"]!)).ToList();
         foreach (var student in students)
         {
             Console.WriteLine($"{student.Id} - {student.Name} - {student.Age} years old - Grade {student.Grade}");
@@ -25,5 +27,7 @@ public class SearchStudentAction : ActionBase
         {
             Console.WriteLine("No students found.");
         }
+
+        Console.ReadKey(true);
     }
 }
